@@ -1,5 +1,16 @@
 id_noticia,fuente,url,categoria_busqueda
-N001,BioBioChile,https://www.biobiochile.cl/noticias/nacional/region-metropolitana/2026/09/01/investigan-asesinato-en-san-ramon-hombre-muere-tras-ataque-a-tiros-en-poblacion-la-bandera.shtml,homicidio
-N002,Cooperativa,https://www.cooperativa.cl/noticias/pais/policial/drogas/pdi-desbarato-red-de-narcotrafico-en-los-rios-12-detenidos-y-150-kilos/2026-08-21/123148.html,trafico_drogas
-N003,LaTercera,https://www.latercera.com/nacional/noticia/pdi-detuvo-a-dos-colombianos-por-el-crimen-el-presunto-ajuste-de-cuentas-narco-detras-de-horroroso-homicidio-en-curacavi/,homicidio
-N004,Cooperativa,https://www.cooperativa.cl/noticias/pais/policial/drogas/cayo-narcobanda-en-maipu-y-recoleta-ocultaban-la-mercancia-en-la-rueda/2026-08-30/133248.html,trafico_drogas
+N001,Meganoticias,https://www.meganoticias.cl/nacional/532219-lapicera-lapiz-arma-de-fuego-foto-hallazgo-pdi-detencion-banda-criminal-22-09-2026.html,crimen_organizado
+N002,LaTercera,https://www.latercera.com/nacional/noticia/liderada-por-menores-y-coordinados-por-telegram-fiscalia-supraterritorial-desarticula-banda-que-traficaba-armas-en-12-regiones/,crimen_organizado
+N003,elmostrador,https://www.elmostrador.cl/noticias/pais/2026/07/15/desarticulan-la-mayor-red-de-trafico-de-armas-del-pais-mas-de-40-detenidos-y-50-armas-incautadas/,crimen_organizado
+N004,El dia,https://www.diarioeldia.cl/noticias/2026/07/15/144853-mas-de-40-detenidos-desbaratan-la-mayor-banda-de-trafico-de-armas,crimen_organizado
+N005,fiscaliadechile,https://www.fiscaliadechile.cl/actualidad/noticias/la-serena-caso-de-fraude-al-fisco-y-lavado-de-activos-es-acreditado-por-la,corrupcion
+N006,LaTercera,https://www.latercera.com/nacional/noticia/fraude-por-760-millones-en-corporacion-municipal-de-la-serena-exfuncionarias-son-condenadas/,corrupcion
+N007,t13,https://www.t13.cl/noticia/nacional/condenan-ocho-anos-carcel-funcionarias-serena-por-fraude-al-fisco-760-millones-11-7-2026,corrupcion
+N008,THE CLINIC,https://www.theclinic.cl/2026/07/11/fraude-al-fisco-por-mas-de-760-millones-en-la-corporacion-municipal-de-la-serena-exfuncionarias-fueron-condenadas-a-8-anos-de-carcel/,corrupcion
+N009,24 Horas,https://www.24horas.cl/regiones/zona-norte/coquimbo/condenan-prision-funcionarias-municipales-la-serena-fraude,corrupcion
+N010,Aduanas,https://www.aduana.cl/historica-incautacion-de-mas-de-mil-toneladas-de-carga-contaminada-con/aduana/2026-06-08/125716.html,narcotrafico
+N011,LaTercera,https://www.latercera.com/nacional/noticia/capturan-a-diez-miembros-de-una-banda-transnacional-que-enviaba-droga-desde-el-puerto-de-san-antonio-a-otros-paises/,narcotrafico
+N012,Meganoticias,https://www.meganoticias.cl/nacional/526621-operativo-internacional-mercaderia-ilegal-incautacion-puerto-san-antonio-aduanas-precursores-quimicos-10-07-2026.html,narcotrafico
+N013,BioBioChile,https://www.biobiochile.cl/noticias/nacional/region-de-los-rios/2026/09/18/entre-ellos-hay-tres-carabineros-formalizan-a-imputados-por-robo-de-madera-y-ganado-en-la-union.shtml,delitos_ambientales
+N014,LaTercera,https://www.latercera.com/nacional/noticia/detienen-en-flagrancia-a-cuatro-sujetos-por-robo-de-madera-en-predio-forestal-en-ercilla/,delitos_ambientales
+N015,Cooperativa,https://www.cooperativa.cl/noticias/pais/region-de-la-araucania/ocho-detenidos-por-robo-de-madera-a-empresas-forestales-en-tolten/2025-01-27/145528.html,delitos_ambientales
