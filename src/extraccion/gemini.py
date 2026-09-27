@@ -11,6 +11,7 @@ TODO(alumno) — mejoras opcionales, el código ya corre sin ellas:
 from __future__ import annotations
 
 import json
+import importlib
 import re
 import time
 from abc import ABC, abstractmethod
@@ -88,8 +89,9 @@ class ExtractorGemini(ExtractorLLM):
                 "Falta GEMINI_API_KEY. Copie .env.example a .env y complete la clave. "
                 "Nunca suba .env a GitHub."
             )
+        types = importlib.import_module("google.genai.types")
         cliente = self._obtener_cliente()
-        from google.genai import types
+
 
         # TODO(alumno): recortar textos muy largos; reintentos ante 429 / timeouts.
         respuesta = cliente.models.generate_content(
@@ -124,8 +126,13 @@ class ExtractorGemini(ExtractorLLM):
 
     def _obtener_cliente(self):
         if self._cliente is None:
-            from google import genai
-
+            try:
+                genai = importlib.import_module("google.genai")
+            except ModuleNotFoundError as exc:
+                raise RuntimeError(
+                    "Falta la dependencia google-genai. "
+                    "Instálela con: pip install google-genai"
+                ) from exc
             self._cliente = genai.Client(api_key=GEMINI_API_KEY)
         return self._cliente
 
