@@ -9,6 +9,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from pathlib import Path
 from collections import defaultdict
+import json
 from src.conocimiento.utilidades import slugify
 
 from src.config import DIR_VAULT
@@ -34,7 +35,7 @@ class EscritorObsidian(ABC):
         pass
 
     @abstractmethod
-    def escribir_vault(self, noticias: list[dict]) -> None:
+    def escribir_vault(self, noticias: list[dict] = None) -> None:
         """orquesta noticia + entidades + índice"""
         pass
 
@@ -45,14 +46,21 @@ class EscritorVaultObsidian(EscritorObsidian):
     def __init__(self, vault: Path = DIR_VAULT) -> None:
         self.vault = vault
 
+    def _extraer_nombre(self, entidad) -> str:
+        if isinstance(entidad, dict):
+            return entidad.get("nombre", "")
+        return str(entidad)
+
     def escribir_noticia(self, data: dict) -> Path:
         entidades = data.get("entidades", data)
         
-        delitos_md = "\n".join([f"- [[{slugify(d)}]]" for d in entidades.get("delitos", [])])
-        lugares_md = "\n".join([f"- [[{slugify(l)}]]" for l in entidades.get("lugares", [])])
-        personas_md = "\n".join([f"- [[{slugify(p)}]]" for p in entidades.get("personas", [])])
-        organizaciones_md = "\n".join([f"- [[{slugify(o)}]]" for o in entidades.get("organizaciones", [])])
-        objetos_md = "\n".join([f"- [[{slugify(obj)}]]" for obj in entidades.get("objetos", [])])
+        delitos_md = "\n".join([f"- [[{slugify(self._extraer_nombre(d))}]]" for d in entidades.get("delitos", [])])
+        lugares_md = "\n".join([f"- [[{slugify(self._extraer_nombre(l))}]]" for l in entidades.get("lugares", [])])
+        
+        personas_md = "\n".join([f"- [[{slugify(p.get('nombre', ''))}]] ({p.get('rol', '')})" if isinstance(p, dict) else f"- [[{slugify(str(p))}]]" for p in entidades.get("personas", [])])
+        
+        organizaciones_md = "\n".join([f"- [[{slugify(self._extraer_nombre(o))}]]" for o in entidades.get("organizaciones", [])])
+        objetos_md = "\n".join([f"- [[{slugify(self._extraer_nombre(obj))}]]" for obj in entidades.get("objetos", [])])
 
         plantilla = f"""---
 id: {data.get('id_noticia')}
@@ -80,7 +88,7 @@ url: {data.get('url', 'Desconocida')}
 ## Objetos
 {objetos_md}
 """
-        ruta = self.vault / "Noticias" / f"{data['id_noticia']}.md"
+        ruta = self.vault / "Noticias" / f"{data.get('id_noticia', 'sin_id')}.md"
         with open(ruta, "w", encoding="utf-8") as f:
             f.write(plantilla)
 
@@ -95,22 +103,23 @@ url: {data.get('url', 'Desconocida')}
 
         for data in noticias:
             nid = data.get("id_noticia")
+            if not nid: continue
             entidades = data.get("entidades", data)
             
             for delito in entidades.get("delitos", []):
-                indice_delitos[slugify(delito)].add(nid)
+                indice_delitos[slugify(self._extraer_nombre(delito))].add(nid)
                 
             for lugar in entidades.get("lugares", []):
-                indice_lugares[slugify(lugar)].add(nid)
+                indice_lugares[slugify(self._extraer_nombre(lugar))].add(nid)
                 
             for persona in entidades.get("personas", []):
-                indice_personas[slugify(persona)].add(nid)
+                indice_personas[slugify(self._extraer_nombre(persona))].add(nid)
                 
             for organizacion in entidades.get("organizaciones", []):
-                indice_organizaciones[slugify(organizacion)].add(nid)
+                indice_organizaciones[slugify(self._extraer_nombre(organizacion))].add(nid)
                 
             for objeto in entidades.get("objetos", []):
-                indice_objetos[slugify(objeto)].add(nid)
+                indice_objetos[slugify(self._extraer_nombre(objeto))].add(nid)
 
         for delito, ids_noticias in indice_delitos.items():
             if not delito: continue
@@ -154,7 +163,7 @@ url: {data.get('url', 'Desconocida')}
 
     def escribir_indice(self, noticias: list[dict]) -> Path:
         ruta = self.vault / "00_Indice.md"
-        enlaces_noticias = "\n".join([f"- [[{data.get('id_noticia')}]] - {data.get('titulo')}" for data in noticias])
+        enlaces_noticias = "\n".join([f"- [[{data.get('id_noticia')}]] - {data.get('titulo')}" for data in noticias if data.get('id_noticia')])
         plantilla = f"""# Índice de Noticias Delictivas
 
 ## Registro de Noticias
@@ -164,8 +173,19 @@ url: {data.get('url', 'Desconocida')}
             f.write(plantilla)
         return ruta
 
-    def escribir_vault(self, noticias: list[dict]) -> None:
+    def escribir_vault(self, noticias: list[dict] = None) -> None:
         print("Iniciando generacion de Obsidian Vault")
+        
+        if not noticias:
+            noticias = []
+            ruta_json = Path("data/json")
+            if ruta_json.exists():
+                for archivo in ruta_json.glob("*.json"):
+                    try:
+                        with open(archivo, "r", encoding="utf-8") as f:
+                            noticias.append(json.load(f))
+                    except Exception:
+                        pass
         
         carpetas = ["Noticias", "Delitos", "Personas", "Organizaciones", "Lugares", "Objetos", "Relaciones"]
         for c in carpetas:
