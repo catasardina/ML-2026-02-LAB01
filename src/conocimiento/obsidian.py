@@ -55,31 +55,31 @@ class EscritorVaultObsidian(EscritorObsidian):
         objetos_md = "\n".join([f"- [[{slugify(obj)}]]" for obj in entidades.get("objetos", [])])
 
         plantilla = f"""---
-id: {data.get('id_noticia')}
-fecha_publicacion: {data.get('fecha_publicacion', 'Desconocida')}
-fuente: {data.get('fuente', 'Desconocida')}
-url: {data.get('url', 'Desconocida')}
----
-# {data.get('titulo', 'Sin titulo')}
+            id: {data.get('id_noticia')}
+            fecha_publicacion: {data.get('fecha_publicacion', 'Desconocida')}
+            fuente: {data.get('fuente', 'Desconocida')}
+            url: {data.get('url', 'Desconocida')}
+            ---
+            # {data.get('titulo', 'Sin titulo')}
 
-## Resumen
-{data.get('resumen', 'Sin resumen')}
+            ## Resumen
+            {data.get('resumen', 'Sin resumen')}
 
-## Delitos
-{delitos_md}
+            ## Delitos
+            {delitos_md}
 
-## Personas
-{personas_md}
+            ## Personas
+            {personas_md}
 
-## Organizaciones
-{organizaciones_md}
+            ## Organizaciones
+            {organizaciones_md}
 
-## Lugares
-{lugares_md}
+            ## Lugares
+            {lugares_md}
 
-## Objetos
-{objetos_md}
-"""
+            ## Objetos
+            {objetos_md}
+            """
         ruta = self.vault / "Noticias" / f"{data['id_noticia']}.md"
         with open(ruta, "w", encoding="utf-8") as f:
             f.write(plantilla)
